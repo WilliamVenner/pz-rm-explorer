@@ -15,10 +15,13 @@ impl RecordedMediaEffects {
 }
 
 macro_rules! rm_code_enum {
-	{$($abbr:ident => $name:ident),+} => {
+	{$($abbr:ident => $name:ident => $str:literal),+} => {
 		#[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Debug, Serialize)]
 		pub enum Skill {
-			$($name),+
+			$(
+				#[serde(rename = $str)]
+				$name
+			),+
 		}
 
 		#[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Debug)]
@@ -59,23 +62,23 @@ macro_rules! rm_code_enum {
 }
 
 rm_code_enum! {
-	SPR => Sprinting,
-	LFT => Lightfooted,
-	NIM => Nimble,
-	SNE => Sneaking,
-	BAA => Axe,
-	BUA => Blunt,
-	CRP => Carpentry,
-	COO => Cooking,
-	FRM => Farming,
-	DOC => FirstAid,
-	ELC => Electricty,
-	MTL => Metalworking,
-	AIM => Aiming,
-	REL => Reloading,
-	FIS => Fishing,
-	TRA => Trapping,
-	FOR => Foraging,
-	TAI => Tailoring,
-	MEC => Mechanics
+	SPR => Sprinting => "Sprinting",
+	LFT => Lightfooted => "Lightfooted",
+	NIM => Nimble => "Nimble",
+	SNE => Sneaking => "Sneaking",
+	BAA => Axe => "Axe",
+	BUA => Blunt => "Blunt",
+	CRP => Carpentry => "Carpentry",
+	COO => Cooking => "Cooking",
+	FRM => Farming => "Farming",
+	DOC => FirstAid => "First Aid",
+	ELC => Electrical => "Electrical",
+	MTL => Metalworking => "Metalworking",
+	AIM => Aiming => "Aiming",
+	REL => Reloading => "Reloading",
+	FIS => Fishing => "Fishing",
+	TRA => Trapping => "Trapping",
+	FOR => Foraging => "Foraging",
+	TAI => Tailoring => "Tailoring",
+	MEC => Mechanics => "Mechanics"
 }

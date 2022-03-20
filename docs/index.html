@@ -1,1 +1,59 @@
-Hello, world!
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Recorded Media Explorer</title>
+</head>
+
+<body>
+	<noscript>Please enable JavaScript</noscript>
+
+	<table id="pz-rm-explorer">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Recipes</th>
+				<th>Skills</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr id="loading"><td colspan="3">Loading...</td></tr>
+		</tbody>
+	</table>
+
+	<script type="text/javascript">
+
+		if (!fetch) alert('Your browser is too old to support this page.');
+
+		fetch('extracted.json')
+			.catch(err => document.querySelector('#loading > td').textContent = 'ERROR: ' + err)
+			.then(extracted => {
+				document.querySelector('#loading').remove();
+
+				const table = document.querySelector('#pz-rm-explorer').remove();
+				for (const [name, effects] of Object.entries(extracted)) {
+					const row = document.createElement('tr');
+
+					const tdName = document.createElement('td');
+					tdName.textContent = name;
+					row.appendChild(tdName);
+
+					const tdRecipes = document.createElement('td');
+					tdRecipes.textContent = effects.recipes.join('<br>');
+					row.appendChild(tdRecipes);
+
+					const tdSkills = document.createElement('td');
+					tdSkills.textContent = Object.entries(effects.skills).map(([name, amount]) => (amount >= 0 ? '+' : '') + amount + ' ' + name).join('<br>');
+					row.appendChild(tdSkills);
+
+					table.appendChild(row);
+				}
+			});
+
+	</script>
+</body>
+
+</html>

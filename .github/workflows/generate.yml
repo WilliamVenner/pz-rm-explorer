@@ -50,5 +50,7 @@ jobs:
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add docs/extracted.json
-        git commit -m "Update extracted recorded media JSON"
-        git push
+        if ! git diff-index --quiet HEAD; then
+          git commit -m "Update extracted recorded media JSON"
+          git push
+        fi

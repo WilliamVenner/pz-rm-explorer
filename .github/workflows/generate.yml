@@ -52,5 +52,5 @@ jobs:
         git add docs/extracted.json
         if ! git diff-index --quiet HEAD; then
           git commit -m "Update extracted recorded media JSON"
-          git push
+          git push origin master
         fi

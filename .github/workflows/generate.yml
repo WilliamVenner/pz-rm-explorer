@@ -8,6 +8,11 @@ on:
       - completed
   schedule:
     - cron: '0 0 * * *'
+  push:
+    tags:
+      - '!*'
+    paths:
+      - '.github/workflows/generate.yml'
 
 jobs:
   generate:
@@ -25,7 +30,7 @@ jobs:
       run: mkdir ~/SteamCMD && curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxf - -C ~/SteamCMD
 
     - name: Install Project Zomboid Dedicated Server
-      run: ./~/SteamCMD/steamcmd.sh +force_install_dir ~/pz-rm-explorer +login anonymous +app_update 380870 validate +quit
+      run: ~/SteamCMD/steamcmd.sh +force_install_dir ~/pz-rm-explorer +login anonymous +app_update 380870 validate +quit
 
     - name: Generate
-      run: ./tmp/pz-rm-extractor docs/extracted.json
+      run: /tmp/pz-rm-extractor docs/extracted.json

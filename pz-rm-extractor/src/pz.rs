@@ -2,7 +2,10 @@ use std::{str::FromStr, collections::{BTreeSet, BTreeMap}};
 
 #[derive(Default, Debug, Serialize)]
 pub struct RecordedMediaEffects {
+	#[serde(skip_serializing_if = "BTreeMap::is_empty")]
 	pub skills: BTreeMap<Skill, i32>,
+
+	#[serde(skip_serializing_if = "BTreeSet::is_empty")]
 	pub recipes: BTreeSet<String>
 }
 impl RecordedMediaEffects {

@@ -10,7 +10,7 @@ macro_rules! pz_path {
 #[cfg(not(debug_assertions))]
 macro_rules! pz_path {
 	($path:literal) => {
-		concat!("~/pz-rm-explorer/", $path)
+		concat!("/tmp/pz-rm-explorer/", $path)
 	};
 }
 

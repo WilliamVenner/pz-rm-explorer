@@ -32,23 +32,21 @@ jobs:
       uses: actions/cache@v2
       with:
         key: pz-dedicated-server
-        path: ~/pz-rm-explorer
+        path: /tmp/pz-rm-explorer
 
     - name: SteamCMD
-      run: mkdir ~/SteamCMD && curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxf - -C ~/SteamCMD
+      run: mkdir /tmp/SteamCMD && curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxf - -C ~/SteamCMD
 
     - name: Install Project Zomboid Dedicated Server
-      run: ~/SteamCMD/steamcmd.sh +force_install_dir ~/pz-rm-explorer +login anonymous +app_update 380870 validate +quit
+      run: /tmp/SteamCMD/steamcmd.sh +force_install_dir /tmp/pz-rm-explorer +login anonymous +app_update 380870 validate +quit
 
     - name: Generate
       run: chmod +x /tmp/pz-rm-extractor/pz-rm-extractor && /tmp/pz-rm-extractor/pz-rm-extractor docs/extracted.json
 
     - name: Commit
       run: |
-        git config --local user.email "$(git log --format='%ae' HEAD^!)"
-        git config --local user.name "$(git log --format='%an' HEAD^!)"
-        git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
-        git pull github ${GITHUB_REF} --ff-only
+        git config user.name github-actions
+        git config user.email github-actions@github.com
         git add -f docs/extracted.json
         git commit -m "Update extracted recorded media JSON"
-        git push github HEAD:${GITHUB_REF}
+        git push

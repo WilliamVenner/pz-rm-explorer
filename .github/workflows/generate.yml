@@ -35,7 +35,7 @@ jobs:
         path: /tmp/pz-rm-explorer
 
     - name: SteamCMD
-      run: mkdir /tmp/SteamCMD && curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxf - -C ~/SteamCMD
+      run: mkdir /tmp/SteamCMD && curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxf - -C /tmp/SteamCMD
 
     - name: Install Project Zomboid Dedicated Server
       run: /tmp/SteamCMD/steamcmd.sh +force_install_dir /tmp/pz-rm-explorer +login anonymous +app_update 380870 validate +quit

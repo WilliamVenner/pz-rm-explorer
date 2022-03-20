@@ -14,8 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download pz-rm-extractor artifact
-      uses: actions/download-artifact@v3
+      uses: dawidd6/action-download-artifact@v2
       with:
+        workflow: build.yml
+        workflow_conclusion: success
         name: pz-rm-extractor
         path: /tmp/pz-rm-extractor
 

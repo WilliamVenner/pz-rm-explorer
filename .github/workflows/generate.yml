@@ -33,9 +33,9 @@ jobs:
       uses: actions/cache@v2
       with:
         key: pz-dedicated-server
-        path:
-          - /tmp/pz-rm-explorer
-          - /tmp/SteamCMD
+        path: |
+          /tmp/pz-rm-explorer
+          /tmp/SteamCMD
 
     - name: SteamCMD
       run: mkdir /tmp/SteamCMD && curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxf - -C /tmp/SteamCMD

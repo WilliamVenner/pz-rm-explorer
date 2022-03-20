@@ -1,3 +1,5 @@
+#![cfg_attr(not(debug_assertions), deny(warnings))]
+
 use std::{collections::BTreeMap, time::Instant, str::FromStr};
 
 #[macro_use] extern crate serde;
@@ -103,6 +105,6 @@ fn main() {
 		println!("{}", serde_json::to_string_pretty(&extracted).expect("Failed to serialize to JSON"));
 	}
 	#[cfg(not(debug_assertions))] {
-		std::io::Write(&mut output, serde_json::to_string(&extracted).expect("Failed to serialize to JSON"));
+		std::io::Write::write_all(&mut output, serde_json::to_string(&extracted).expect("Failed to serialize to JSON").as_bytes()).expect("Failed to write to output file");
 	}
 }

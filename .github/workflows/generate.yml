@@ -43,7 +43,7 @@ jobs:
       run: /tmp/SteamCMD/steamcmd.sh -flushlog +force_install_dir /tmp/pz-rm-explorer +login anonymous +app_update 380870 validate +quit
 
     - name: Generate
-      run: chmod +x /tmp/pz-rm-extractor/pz-rm-extractor && /tmp/pz-rm-extractor/pz-rm-extractor docs/extracted.json
+      run: chmod +x pz-rm-extractor/target/x86_64-unknown-linux-gnu/release/pz-rm-extractor && pz-rm-extractor/target/x86_64-unknown-linux-gnu/release/pz-rm-extractor docs/extracted.json
 
     - name: Commit
       run: |

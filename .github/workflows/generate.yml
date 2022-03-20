@@ -2,37 +2,40 @@ name: generate
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: [build]
-    types:
-      - completed
   schedule:
     - cron: '0 0 * * *'
   push:
     tags:
-      - '!*'
+      - '*.*.*'
     paths:
       - '.github/workflows/generate.yml'
 
 jobs:
   generate:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-
-    - name: Download pz-rm-extractor artifact
-      uses: dawidd6/action-download-artifact@v2
+    - uses: actions-rs/toolchain@v1
       with:
-        workflow: build.yml
-        workflow_conclusion: success
-        name: pz-rm-extractor
-        path: /tmp/pz-rm-extractor
+        toolchain: stable
+        profile: minimal
+        target: x86_64-unknown-linux-gnu
+
+    - uses: Swatinem/rust-cache@v1
+
+    - uses: actions-rs/cargo@v1
+      with:
+        command: build
+        args: --target x86_64-unknown-linux-gnu --release --manifest-path pz-rm-extractor/Cargo.toml
 
     - name: Cache Project Zomboid Dedicated Server
       uses: actions/cache@v2
       with:
         key: pz-dedicated-server
-        path: /tmp/pz-rm-explorer
+        path:
+          - /tmp/pz-rm-explorer
+          - /tmp/SteamCMD
 
     - name: SteamCMD
       run: mkdir /tmp/SteamCMD && curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxf - -C /tmp/SteamCMD
@@ -47,6 +50,6 @@ jobs:
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
-        git add -f docs/extracted.json
+        git add docs/extracted.json
         git commit -m "Update extracted recorded media JSON"
         git push

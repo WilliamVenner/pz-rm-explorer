@@ -33,4 +33,4 @@ jobs:
       run: ~/SteamCMD/steamcmd.sh +force_install_dir ~/pz-rm-explorer +login anonymous +app_update 380870 validate +quit
 
     - name: Generate
-      run: /tmp/pz-rm-extractor docs/extracted.json
+      run: /tmp/pz-rm-extractor/pz-rm-extractor docs/extracted.json

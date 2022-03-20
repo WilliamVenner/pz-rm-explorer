@@ -1,0 +1,25 @@
+name: generate
+
+on:
+  schedule:
+    - workflow_dispatch
+    - cron: '0 0 * * *'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download pz-rm-extractor artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: pz-rm-extractor
+        path: /tmp/pz-rm-extractor
+
+    - name: SteamCMD
+      run: curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxf - -C ~/SteamCMD
+
+    - name: Install Project Zomboid Dedicated Server
+      run: ./~/SteamCMD/steamcmd.sh +force_install_dir ~/pz-rm-explorer +login anonymous +app_update 380870 validate +quit
+
+    - name: Generate
+      run: ./tmp/pz-rm-extractor docs/extracted.json

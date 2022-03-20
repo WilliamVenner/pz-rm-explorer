@@ -5,8 +5,6 @@ edition = "2021"
 publish = false
 
 [profile.release]
-lto = "thin"
-codegen-units = 1
 strip = true
 
 [dependencies]

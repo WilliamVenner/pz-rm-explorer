@@ -2,6 +2,8 @@ name: ci
 
 on:
   push:
+    tags:
+      - '!*'
     paths:
       - 'pz-rm-extractor/**/*'
 
